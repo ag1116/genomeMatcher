@@ -1,2 +1,1 @@
-Project to identify ancestry
-and covid origins
+Project to identify what region of the world a specific lineage of the SARS-CoV-2 virus originated from
