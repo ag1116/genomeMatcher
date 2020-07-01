@@ -1,5 +1,3 @@
-<!DOCTYPE HTML>
-
 <html>
 	<head>
 		<title>World Wide Covid</title>
@@ -9,6 +7,29 @@
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 	</head>
 	<body class="homepage is-preload">
+        <?php
+            // Check if the form was submitted
+            if($_SERVER["REQUEST_METHOD"] == "POST"){
+                if(isset($_FILES["fileToUpload"])){ 
+                    $filename = $_FILES["fileToUpload"]["name"];
+                    $filetype = $_FILES["fileToUpload"]["type"];
+                    $filesize = $_FILES["fileToUpload"]["size"];
+                    $result = "";
+                        if(file_exists("upload/" . $filename)){
+                            $result = $filename . " is already exists. please try renaming your file";
+                        } else{
+                            move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], "genome/uploads/" . $filename);
+                            $result = "Your file was uploaded successfully.";
+                        } 
+                } else{
+                    echo $_SERVER["REQUEST_METHOD"];
+                    echo "Error: " . $_FILES["photo"]["error"];
+                }
+            }
+            $cmd = "python ./genome/covid.py " .$filename;
+            $output = shell_exec($cmd);
+
+        ?>
 		<div id="page-wrapper">
 
 			<!-- Header -->
@@ -19,7 +40,9 @@
 							<header>
 								<h1><a href="covid-region.html" id="logo">COVID-19 Identifier</a></h1>
 								<hr />
-								<p>Your file has been uploaded successfully!</p>
+                                <p><?php echo $result ?></p>
+                                <p>Your file is processing... </p>
+                                <p>Your Strand of the SARS-CoV-2 Virus appears to come from : <?php echo $output?></p>
 							</header>
 						</div>
 
@@ -42,7 +65,6 @@
 			<!-- Carousel -->
 					<!-- <section class="carousel">
 						<div class="reel">
-
 							<article>
 								<a href="#" class="image featured"><img src="images/pic01.jpg" alt="" /></a>
 								<header>
@@ -50,7 +72,6 @@
 								</header>
 								<p>Commodo id natoque malesuada sollicitudin elit suscipit magna.</p>
 							</article>
-
 							<article>
 								<a href="#" class="image featured"><img src="images/pic02.jpg" alt="" /></a>
 								<header>
@@ -58,13 +79,11 @@
 								</header>
 								<p>Commodo id natoque malesuada sollicitudin elit suscipit magna.</p>
 							</article>
-
 						</div>
 					</section> -->
 
 			<!-- Main -->
 				<!-- <div class="wrapper style2">
-
 					<article id="main" class="container special">
 						<a href="#" class="image featured"><img src="images/pic06.jpg" alt="" /></a>
 						<header>
@@ -84,7 +103,6 @@
                               </form>
 						</footer>
 					</article>
-
 				</div> -->
 
 			<!-- Features -->
@@ -102,3 +120,4 @@
 
 	</body>
 </html>
+
