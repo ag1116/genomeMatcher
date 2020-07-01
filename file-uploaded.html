@@ -18,7 +18,7 @@
                         if(file_exists("upload/" . $filename)){
                             $result = $filename . " is already exists. please try renaming your file";
                         } else{
-                            move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], "genome/uploads/" . $filename);
+                            move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], "python/uploads/" . $filename);
                             $result = "Your file was uploaded successfully.";
                         } 
                 } else{
